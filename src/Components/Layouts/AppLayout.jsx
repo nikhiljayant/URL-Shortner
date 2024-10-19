@@ -6,7 +6,7 @@ import Header from "../Common/Header";
 
 const AppLayout = () => {
   return (
-    <div>
+    <div className="bg-[#030817]">
       <main className="min-h-screen container">
         <Header />
 
@@ -14,8 +14,8 @@ const AppLayout = () => {
         <Outlet />
       </main>
 
-      <div className="p-10 text-center bg-gray-800 mt-10">
-        Made with ❤️ by Nikhil Jayant.
+      <div className="p-10 text-center bg-gray-800 mt-10 text-slate-100">
+        Made with ❤️ by Nikhil Jayant
       </div>
     </div>
   );
