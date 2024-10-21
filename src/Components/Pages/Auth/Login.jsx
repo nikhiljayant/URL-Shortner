@@ -19,6 +19,7 @@ import ErrorMessageDisplay from "@/Components/Partials/ErrorMessageDisplay";
 import useFetchData from "@/Hooks/useFetchData";
 // DB
 import { login } from "@/db/apiAuth";
+import { UrlState } from "@/Context";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const Login = () => {
     error: err,
     handleMakeGetCall,
   } = useFetchData(login, loginDetails);
+  const { fetchUser } = UrlState();
 
   useEffect(() => {
     if (err === null && data) {
@@ -43,6 +45,7 @@ const Login = () => {
             : ""
         }`
       );
+      fetchUser();
     }
   }, [data, err]);
 

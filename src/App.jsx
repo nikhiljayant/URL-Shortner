@@ -9,6 +9,8 @@ import Dashboard from "./Components/Pages/Dashboard";
 import Auth from "./Components/Pages/Auth";
 import Link from "./Components/Pages/Link";
 import RedirectLink from "./Components/Pages/RedirectLink";
+// Context
+import Context from "./Context";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +41,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <Context>
+      <RouterProvider router={router} />
+    </Context>
+  );
 }
 
 export default App;
