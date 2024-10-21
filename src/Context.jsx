@@ -7,7 +7,11 @@ import { getCurrentUser } from "./db/apiAuth";
 const urlContext = createContext();
 
 const Context = ({ children }) => {
-  const { data: user, loading, fn: fetchUser } = useFetchData(getCurrentUser);
+  const {
+    data: user,
+    loading,
+    handleMakeGetCall: fetchUser,
+  } = useFetchData(getCurrentUser);
 
   const isAuthenticated = user?.role === "authenticated";
 
