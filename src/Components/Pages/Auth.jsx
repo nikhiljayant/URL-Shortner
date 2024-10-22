@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // Components
 import Login from "./Auth/Login";
 import Signup from "./Auth/Signup";
+// Context
 import { UrlState } from "@/Context";
 
 const Auth = () => {
@@ -15,14 +16,16 @@ const Auth = () => {
   const { isAuthenticated, loading } = UrlState();
 
   useEffect(() => {
-    navigate(
-      `/dashboard?${
-        searchParams.get("createNew")
-          ? `createNew=${searchParams.get("createNew")}`
-          : ""
-      }`
-    );
-  }, [isAuthenticated]);
+    if (isAuthenticated && !loading) {
+      navigate(
+        `/dashboard?${
+          searchParams.get("createNew")
+            ? `createNew=${searchParams.get("createNew")}`
+            : ""
+        }`
+      );
+    }
+  }, [isAuthenticated, loading]);
 
   return (
     <div className="mt-20 flex flex-col items-center gap-10">

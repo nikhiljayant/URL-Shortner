@@ -11,6 +11,7 @@ import Link from "./Components/Pages/Link";
 import RedirectLink from "./Components/Pages/RedirectLink";
 // Context
 import Context from "./Context";
+import ProtectedRoute from "./Components/Partials/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/auth",
@@ -30,7 +35,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/link/:id",
-        element: <Link />,
+        element: (
+          <ProtectedRoute>
+            <Link />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/:id",
