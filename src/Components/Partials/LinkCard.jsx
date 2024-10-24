@@ -2,10 +2,35 @@ import React from "react";
 // Dependency
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
+import { BeatLoader } from "react-spinners";
 // Icons
-import { Copy, Delete, Download } from "lucide-react";
+import { Copy, Download, Trash } from "lucide-react";
+// Custom Hook
+import useFetchData from "@/Hooks/useFetchData";
+// DB
+import { deleteUrl } from "@/db/apiUrls";
 
 const LinkCard = ({ url, fetchUrls }) => {
+  const { loading: loadingDelete, handleMakeGetCall: fnDelete } = useFetchData(
+    deleteUrl,
+    url?.id
+  );
+
+  const downloadImage = () => {
+    const imageUrl = url?.qr;
+    const fileName = url?.title;
+
+    const anchor = document.createElement("a");
+    anchor.href = imageUrl;
+    anchor.download = fileName;
+
+    document.body.appendChild(anchor);
+
+    anchor.click();
+
+    document.body.removeChild(anchor);
+  };
+
   return (
     <div className="border-[#1F2937] text-white flex flex-col md:flex-row gap-5 border p-4 bg-gray-900 rounded-lg">
       <img
@@ -37,11 +62,14 @@ const LinkCard = ({ url, fetchUrls }) => {
         >
           <Copy />
         </Button>
-        <Button variant="ghost">
+        <Button variant="ghost" onClick={downloadImage}>
           <Download />
         </Button>
-        <Button variant="ghost">
-          <Delete />
+        <Button
+          variant="ghost"
+          onClick={() => fnDelete().then(() => fetchUrls())}
+        >
+          {loadingDelete ? <BeatLoader size={5} color="white" /> : <Trash />}
         </Button>
       </div>
     </div>
