@@ -16,6 +16,7 @@ import useFetchData from "@/Hooks/useFetchData";
 // DB
 import { getUrls } from "@/db/apiUrls";
 import { getClicksForUrls } from "@/db/apiClicks";
+import CreateLinkModal from "./Modal/CreateLinkModal";
 
 const Dashboard = () => {
   const { user } = UrlState();
@@ -75,7 +76,8 @@ const Dashboard = () => {
 
       <div className="flex justify-between">
         <h1 className="text-4xl font-extrabold text-white">My Links</h1>
-        <Button>Create Link</Button>
+        {/* <Button>Create Link</Button> */}
+        <CreateLinkModal />
       </div>
 
       <div className="relative">
