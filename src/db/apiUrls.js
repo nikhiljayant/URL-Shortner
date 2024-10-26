@@ -1,5 +1,6 @@
 import supabase from "./supabase";
 import supabaseUrl from "../db/supabase";
+import { UAParser } from "ua-parser-js";
 
 export async function getUrls(user_id) {
   const { data, error } = await supabase
@@ -25,7 +26,7 @@ export async function deleteUrl(id) {
 }
 
 export async function createUrl(
-  { title, longUrl, customUrl, user_id },
+  { title, longURL, customURL, user_id },
   qrcode
 ) {
   // toString(36) for Base 36
@@ -37,15 +38,15 @@ export async function createUrl(
 
   if (storageError) throw new Error(storageError.message);
 
-  const qr = `${supabaseUrl}/storage/v1/object/public/qrs/${fileName}`;
+  const qr = `${supabaseUrl.supabaseUrl}/storage/v1/object/public/qrs/${fileName}`;
 
   const { data, error } = await supabase
     .from("urls")
     .insert([
       {
         title,
-        original_url: longUrl,
-        custom_url: customUrl || null,
+        original_url: longURL,
+        custom_url: customURL || null,
         user_id,
         short_url,
         qr,
@@ -59,3 +60,41 @@ export async function createUrl(
   }
   return data;
 }
+
+export async function getLongUrl(id) {
+  const { data, error } = await supabase
+    .from("urls")
+    .select("id, original_url")
+    .or(`$short_url.eq.${id},custom_url.eq.${id}`)
+    .single();
+
+  if (error) {
+    console.log(error.message);
+    throw new Error("Error fetching short link");
+  }
+
+  return data;
+}
+
+const parser = UAParser();
+
+export const storeClicks = async ({ id, originalUrl }) => {
+  try {
+    const res = parser.getResult();
+    const device = res.type || "desktop";
+
+    const resonse = await fetch("https://ipapi.co/json");
+    const { city, country_name: country } = await resonse.json();
+
+    await supabase.from("clicks").insert({
+      url_id: id,
+      city: city,
+      country: country,
+      device: device,
+    });
+
+    window.location.href = originalUrl;
+  } catch (error) {
+    console.error("Error recording click:", error);
+  }
+};

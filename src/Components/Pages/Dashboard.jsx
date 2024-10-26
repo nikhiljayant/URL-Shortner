@@ -84,7 +84,7 @@ const Dashboard = () => {
         <Input
           type="text"
           placeholder="Filter Links..."
-          className="bg-[#030817] border-[#1F2937]"
+          className="bg-[#030817] border-[#1F2937] text-white"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
