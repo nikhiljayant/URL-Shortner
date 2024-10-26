@@ -4,14 +4,16 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/Components/ui/button";
+import { Input } from "@/Components/ui/input";
 // Context
 import { UrlState } from "@/Context";
+// Components
+import ErrorMessageDisplay from "@/Components/Partials/ErrorMessageDisplay";
 
 const CreateLinkModal = () => {
   const { user } = UrlState();
@@ -28,11 +30,16 @@ const CreateLinkModal = () => {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </DialogDescription>
+            <DialogTitle>Create New</DialogTitle>
+
+            <Input id="title" placeholder="Short Link's Title" />
+            <ErrorMessageDisplay message={"Something went wrong"} />
+
+            <Input id="title" placeholder="Enter your looooong URL" />
+            <ErrorMessageDisplay message={"Something went wrong"} />
+
+            <Input id="title" placeholder="Custom link (Optional)" />
+            <ErrorMessageDisplay message={"Something went wrong"} />
           </DialogHeader>
         </DialogContent>
       </Dialog>
